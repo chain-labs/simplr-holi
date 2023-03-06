@@ -16,13 +16,14 @@ import { CLAIM_STEPS } from './constants'
 import { client } from '@/components/ApolloClient'
 import { FETCH_EVENT_OWNER_QUERY } from '@/graphql/query/fetchEventOwnerAddress'
 import { Blob } from 'nft.storage'
-import { CONTRACT_ADDRESS, SIMPLR_ADDRESS } from '@/utils/constants'
+import { SIMPLR_ADDRESS } from '@/utils/constants'
 import SignatureStep from './SignatureStep'
 import SecurityStep from './SecurityStep'
 import MintingStep from './MintingStep'
 import FinalStep from './FinalStep'
 import FETCH_HOLDER_TICKETS from '@/graphql/query/fetchHolderTickets'
 import { toast } from 'react-hot-toast'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 
 const ClaimSection = ({
   query,
