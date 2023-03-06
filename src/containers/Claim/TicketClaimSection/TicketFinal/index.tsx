@@ -3,7 +3,6 @@ import If from '@/components/If'
 import FETCH_HOLDER_TICKETS from '@/graphql/query/fetchHolderTickets'
 import FETCH_REVEALED from '@/graphql/query/fetchRevealed'
 import {
-  CONTRACT_ADDRESS,
   ENABLE_QR,
   EVENT_NAME,
   OPENSEA_URL,
@@ -11,6 +10,7 @@ import {
   TOKEN_NAME,
   TWITTER_URL,
 } from '@/utils/constants'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 import { useAuth } from '@arcana/auth-react'
 import { ArrowRight, TelegramFill, TwitterFill } from 'akar-icons'
 import axios from 'axios'

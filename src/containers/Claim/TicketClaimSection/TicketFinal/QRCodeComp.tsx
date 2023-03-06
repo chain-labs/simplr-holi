@@ -4,9 +4,10 @@ import QRCode from 'react-qr-code'
 import Spinner from '../../components/Spinner'
 import LitJsSdk from '@lit-protocol/sdk-browser'
 import { useAuth } from '@arcana/auth-react'
-import { CONTRACT_ADDRESS, getNetwork, TOKEN_NAME } from '@/utils/constants'
+import { getNetwork, TOKEN_NAME } from '@/utils/constants'
 import { ethers } from 'ethers'
 import { utf8ToHex } from '../../utils'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 
 const QRCodeComp = ({ qrData, tokenId }: { qrData: any; tokenId: string }) => {
   const [loading, setLoading] = useState(true)

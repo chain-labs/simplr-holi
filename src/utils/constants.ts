@@ -1,4 +1,3 @@
-import contracts from '@/contracts.json'
 import { CHAIN } from '@arcana/auth'
 import { CONTRACT_ADDRESS } from './constants_admin'
 
