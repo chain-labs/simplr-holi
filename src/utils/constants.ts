@@ -1,5 +1,6 @@
 import { CHAIN } from '@arcana/auth'
 import { CONTRACT_ADDRESS } from './constants_admin'
+export { CONTRACT_ADDRESS } from './constants_admin'
 
 const toBoolean = (condition: string) => {
   if (condition?.toLowerCase() === 'true') {
