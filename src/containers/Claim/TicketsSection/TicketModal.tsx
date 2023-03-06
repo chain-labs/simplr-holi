@@ -52,12 +52,17 @@ const TicketModal = ({ setModalOpen, modalData, setModalData }: Props) => {
                     {`#${modalData?.tokenId} ${modalData?.eventName}`}
                   </h2>
                   <div className="mt-6 flex justify-center gap-4">
-                    <a href={TWITTER_URL} target="_blank" rel="noreferrer">
-                      <button className="focus:bg-initial flex items-center rounded-lg bg-[#1da1f2] px-2 py-2.5 text-sm font-medium text-white hover:bg-[#1da1f2]">
-                        <TwitterFill size={16} />
-                        <h4 className="ml-2 text-sm">Share on Twitter</h4>
-                      </button>
-                    </a>
+                    <If
+                      condition={!!TWITTER_URL}
+                      then={
+                        <a href={TWITTER_URL} target="_blank" rel="noreferrer">
+                          <button className="focus:bg-initial flex items-center rounded-lg bg-[#1da1f2] px-2 py-2.5 text-sm font-medium text-white hover:bg-[#1da1f2]">
+                            <TwitterFill size={16} />
+                            <h4 className="ml-2 text-sm">Share on Twitter</h4>
+                          </button>
+                        </a>
+                      }
+                    />
                     {/* <button className="focus:bg-initial flex items-center rounded-lg bg-gradient-instagram px-2 py-2.5 text-sm font-medium text-white hover:bg-[#1da1f2]">
                       <InstagramFill size={16} />
                       <h4 className="ml-2 text-sm">Brag on Instagram</h4>
@@ -73,12 +78,17 @@ const TicketModal = ({ setModalOpen, modalData, setModalData }: Props) => {
                     </a>
                   </div>
                   <div className="mt-4 mb-6 flex justify-center gap-4">
-                    <a href={TELEGRAM_URL} target="_blank" rel="noreferrer">
-                      <button className="flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
-                        <TelegramFill size={16} />
-                        <h4 className="ml-2 text-sm">Join Telegram</h4>
-                      </button>
-                    </a>
+                    <If
+                      condition={!!TELEGRAM_URL}
+                      then={
+                        <a href={TELEGRAM_URL} target="_blank" rel="noreferrer">
+                          <button className="flex items-center rounded-lg bg-blue-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
+                            <TelegramFill size={16} />
+                            <h4 className="ml-2 text-sm">Join Telegram</h4>
+                          </button>
+                        </a>
+                      }
+                    />
                     <If
                       condition={ENABLE_QR}
                       then={
