@@ -32,7 +32,7 @@ const QRCodeComp = ({ qrData, tokenId }: { qrData: any; tokenId: string }) => {
       )
       const pngFile = canvas.toDataURL('image/png')
       const downloadLink = document.createElement('a')
-      downloadLink.download = `#${tokenId}_${TOKEN_NAME}_Vivacity2023.png`
+      downloadLink.download = `#${tokenId}_${TOKEN_NAME}.png`
       downloadLink.href = `${pngFile}`
       downloadLink.click()
     }

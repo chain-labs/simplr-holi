@@ -73,7 +73,7 @@ const ConfirmButton = () => {
         lastname: data.lastName,
         emailid: data.email,
         batchid: nextBatchId.toString(),
-        eventname: 'Vivacity 2023',
+        eventname: EVENT_NAME,
       }
       getHashes(dataExample).then((res) => userInputHashes.push(res))
     })

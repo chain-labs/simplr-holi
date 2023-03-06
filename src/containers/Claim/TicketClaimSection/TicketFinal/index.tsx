@@ -5,6 +5,7 @@ import FETCH_REVEALED from '@/graphql/query/fetchRevealed'
 import {
   CONTRACT_ADDRESS,
   ENABLE_QR,
+  EVENT_NAME,
   OPENSEA_URL,
   TELEGRAM_URL,
   TOKEN_NAME,
@@ -85,7 +86,7 @@ const TicketFinal = ({ qrData }: { qrData: any }) => {
           </div>
           <div className="mt-8 w-full border-t border-t-gray-300 pt-4">
             <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
-              Your Vivacity 2023 {TOKEN_NAME}
+              Your {EVENT_NAME} {TOKEN_NAME}
             </h2>
             <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
               #{tokenId}
