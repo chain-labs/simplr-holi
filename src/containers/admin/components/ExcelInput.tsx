@@ -59,26 +59,26 @@ const HomeComponent = () => {
           const data: CsvState[] = []
           try {
             rows.forEach((row) => {
-              const first = row.firstAllowedEntryDate?.split('-')
-              const last = row.lastAllowedEntryDate?.split('-')
-              const f = new Date('July 1, 1999, 00:00:00')
-              const l = new Date('July 1, 1999, 23:59:59')
+              const firstDate = row.firstAllowedEntryDate?.split('-')
+              const lastDate = row.lastAllowedEntryDate?.split('-')
+              const firstDateStamp = new Date('July 1, 1999, 12:00:00')
+              const lastDateStamp = new Date('July 1, 1999, 12:00:00')
 
-              f.setDate(first[0])
-              f.setMonth(first[1])
-              f.setFullYear(first[2])
-              const ft = f.getTime()
-              l.setDate(last[0])
-              l.setMonth(last[1])
-              l.setFullYear(last[2])
-              const lt = l.getTime()
+              firstDateStamp.setDate(firstDate[0])
+              firstDateStamp.setMonth(parseInt(firstDate[1]) - 1)
+              firstDateStamp.setFullYear(firstDate[2])
+              const firstDateTimestamp = firstDateStamp.getTime()
+              lastDateStamp.setDate(lastDate[0])
+              lastDateStamp.setMonth(parseInt(lastDate[1]) - 1)
+              lastDateStamp.setFullYear(lastDate[2])
+              const lastDateTimestamp = lastDateStamp.getTime()
 
               data.push({
                 firstName: row.firstName,
                 lastName: row.lastName,
                 email: row.email,
-                firstAllowedEntryDate: ft.toString(),
-                lastAllowedEntryDate: lt.toString(),
+                firstAllowedEntryDate: firstDateTimestamp.toString(),
+                lastAllowedEntryDate: lastDateTimestamp.toString(),
               })
             })
           } catch (err) {
