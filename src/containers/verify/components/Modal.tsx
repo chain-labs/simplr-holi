@@ -6,7 +6,7 @@ import Portal from './Portal'
 interface props {
   onCancel: () => void
   errorPresent: boolean
-  error: string
+  // error: string
   message: string
   setStartScan: (any) => void
 }
@@ -14,7 +14,7 @@ interface props {
 const Modal = ({
   onCancel,
   errorPresent,
-  error,
+  // error,
   message,
   setStartScan,
 }: props) => {
@@ -47,7 +47,7 @@ const Modal = ({
                 </p>
                 <p className="mt-1 text-center text-sm text-gray-700">
                   {' '}
-                  {errorPresent ? error : message}
+                  {message}
                 </p>
               </div>
             </div>
