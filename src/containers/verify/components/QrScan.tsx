@@ -10,7 +10,11 @@ import {
 } from '../utils'
 import { ethers } from 'ethers'
 import { ERRORS } from '../constants'
-
+import dynamic from 'next/dynamic'
+const BarcodeScannerComponent = dynamic(
+  () => import('react-qr-barcode-scanner'),
+  { ssr: false },
+)
 const QrScan = () => {
   const [mode, setMode] = useState('environment')
   const [showModal, setShowModal] = useState<boolean>(false)
@@ -23,7 +27,7 @@ const QrScan = () => {
   //This functions gets the data scanned from QR code and pass to check validity of owner
   //If owner is valid data is sent to server and token's validity is checked
   const handleQrCodeData = async (result) => {
-    const qrCodeData = JSON.parse(result)
+    const qrCodeData = JSON.parse(result.text)
     const signerAddress = ethers.utils.verifyMessage(
       qrCodeData.message,
       qrCodeData.signature,
@@ -110,7 +114,7 @@ const QrScan = () => {
           condition={startScan}
           then={
             <div className="w-full">
-              <QrReader
+              {/* <QrReader
                 constraints={{ facingMode: mode }}
                 scanDelay={2000}
                 onResult={(result, error) => {
@@ -120,6 +124,14 @@ const QrScan = () => {
                   if (error) {
                     console.info(error)
                   }
+                }}
+              /> */}
+              <BarcodeScannerComponent
+                width={500}
+                height={500}
+                onUpdate={(err, result) => {
+                  if (result) handleQrCodeData(result)
+                  else console.log('error')
                 }}
               />
             </div>
@@ -154,7 +166,6 @@ const QrScan = () => {
           <Modal
             onCancel={handleCloseModal}
             errorPresent={errorOccured}
-            // error={error}
             message={message}
             setStartScan={setStartScan}
           />
