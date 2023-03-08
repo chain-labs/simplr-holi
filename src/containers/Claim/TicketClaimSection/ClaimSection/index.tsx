@@ -152,7 +152,6 @@ const ClaimSection = ({
               })
               .then((res) => {
                 const tokenId = res.data?.holders[0]?.tickets[0].tokenId
-                console.log({ tokenId })
                 const body: ClaimTicketRequestBody = {
                   accountAddress: auth.user.address,
                   claimTimestamp: `${Math.abs(
@@ -165,6 +164,7 @@ const ClaimSection = ({
                   eventName: query.eventname,
                   tokenId: parseInt(tokenId),
                   isSubscribed: subscribe,
+                  batchId: parseInt(query.batchid),
                   contractAddress: CONTRACT_ADDRESS,
                 }
                 setCurrentStep(CLAIM_STEPS.FINISHED)
