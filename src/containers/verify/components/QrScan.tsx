@@ -1,5 +1,5 @@
 import If from '../../../components/If'
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import QrReader from 'react-qr-reader'
 import Animation from './Animation'
 import Modal from './Modal'
@@ -20,11 +20,13 @@ const QrScan = () => {
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
   const [qrStatus, setQrStatus] = useState('Scanning')
+  const ref = useRef(null)
 
   //This functions gets the data scanned from QR code and pass to check validity of owner
   //If owner is valid data is sent to server and token's validity is checked
   const handleQrCodeData = async (data) => {
     if (data) {
+      ref.current.stopCamera()
       setQrStatus('Verifying')
       const qrCodeData = JSON.parse(data)
       const signerAddress = ethers.utils.verifyMessage(
@@ -116,9 +118,10 @@ const QrScan = () => {
           then={
             <div className="w-full">
               <QrReader
-                delay={300}
+                delay={1000}
                 onScan={handleQrCodeData}
                 onError={handleCloseScan}
+                ref={ref}
               />
             </div>
           }
