@@ -1,6 +1,6 @@
-import If from '@/components/If'
-import React, { useState } from 'react'
-import { QrReader } from 'react-qr-reader'
+import If from '../../../components/If'
+import React, { useRef, useState } from 'react'
+import QrReader from 'react-qr-reader'
 import Animation from './Animation'
 import Modal from './Modal'
 import {
@@ -19,49 +19,56 @@ const QrScan = () => {
   const [errorOccured, setErrorOcurred] = useState<boolean>(false)
   const [error, setError] = useState('')
   const [message, setMessage] = useState('')
+  const [qrStatus, setQrStatus] = useState('Scanning')
+  const ref = useRef(null)
 
   //This functions gets the data scanned from QR code and pass to check validity of owner
   //If owner is valid data is sent to server and token's validity is checked
-  const handleQrCodeData = async (result) => {
-    const qrCodeData = JSON.parse(result)
-    const signerAddress = ethers.utils.verifyMessage(
-      qrCodeData.message,
-      qrCodeData.signature,
-    )
-    console.log({ signerAddressOfQrCodeData: signerAddress })
-    const isOwner = await checkIfSignerAddressIsOwnerOfTokenId(
-      qrCodeData.tokenId,
-      qrCodeData.contractAddress.toLowerCase(),
-      signerAddress,
-    )
-    if (isOwner) {
-      const body = {
-        accountAddress: signerAddress,
-        tokenId: qrCodeData.tokenId,
-        contractAddress: qrCodeData.contractAddress,
-        redeemedTimestamp: Date.now(),
-      }
+  const handleQrCodeData = async (data) => {
+    if (data) {
+      ref.current.stopCamera()
+      setQrStatus('Verifying')
+      const qrCodeData = JSON.parse(data)
+      const signerAddress = ethers.utils.verifyMessage(
+        qrCodeData.message,
+        qrCodeData.signature,
+      )
+      console.log({ signerAddressOfQrCodeData: signerAddress })
+      const isOwner = await checkIfSignerAddressIsOwnerOfTokenId(
+        qrCodeData.tokenId,
+        qrCodeData.contractAddress.toLowerCase(),
+        signerAddress,
+      )
+      if (isOwner) {
+        const body = {
+          accountAddress: signerAddress,
+          tokenId: qrCodeData.tokenId,
+          contractAddress: qrCodeData.contractAddress,
+          redeemedTimestamp: Date.now(),
+        }
 
-      //sending data to server
-      const serverResponse = await sendTokenIdToServer(body)
-      console.log(serverResponse)
-      if (serverResponse) {
-        handleCloseScan()
-        setErrorOcurred(!serverResponse.data.success)
-        setMessage(serverResponse.data.data.message)
-        setShowModal(true)
+        //sending data to server
+        const serverResponse = await sendTokenIdToServer(body)
+        console.log(serverResponse)
+        if (serverResponse) {
+          handleCloseScan()
+          setErrorOcurred(!serverResponse.data.success)
+          setMessage(serverResponse.data.data.message)
+          setShowModal(true)
+        } else {
+          const dataNotSent = true
+          setErrorOcurred(dataNotSent)
+          setMessage(ERRORS.unknownError)
+        }
       } else {
-        const dataNotSent = true
-        setErrorOcurred(dataNotSent)
-        setMessage(ERRORS.unknownError)
+        const ownerNotValid = true
+        setErrorOcurred(ownerNotValid)
+        setMessage(ERRORS.OwnerNotValid)
+        setShowModal(true)
       }
-    } else {
-      const ownerNotValid = true
-      setErrorOcurred(ownerNotValid)
-      setMessage(ERRORS.OwnerNotValid)
-      setShowModal(true)
+      setLoadingScan(false)
+      setQrStatus('Scanning')
     }
-    setLoadingScan(false)
   }
 
   //pass tokenId,contractAddress and signerAddress to check if owner is valid
@@ -111,16 +118,10 @@ const QrScan = () => {
           then={
             <div className="w-full">
               <QrReader
-                constraints={{ facingMode: mode }}
-                scanDelay={2000}
-                onResult={(result, error) => {
-                  if (result) {
-                    handleQrCodeData(result)
-                  }
-                  if (error) {
-                    console.info(error)
-                  }
-                }}
+                delay={1000}
+                onScan={handleQrCodeData}
+                onError={handleCloseScan}
+                ref={ref}
               />
             </div>
           }
@@ -135,7 +136,7 @@ const QrScan = () => {
           className="flex w-full items-center justify-center rounded-lg bg-violet-700 px-5 py-2.5 text-center text-sm font-medium text-white hover:bg-violet-800 focus:outline-none focus:ring-4 focus:ring-violet-300"
         >
           {startScan ? <Animation /> : ''}
-          {startScan ? 'Scanning' : 'Start Scan'}
+          {startScan ? qrStatus : 'Start Scan'}
         </button>{' '}
         <If
           condition={startScan}
