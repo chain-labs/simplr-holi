@@ -13,6 +13,3 @@ export const STEP_NAME = {
   3: `Claim ${TOKEN_NAME}`,
   4: `View ${TOKEN_NAME}`,
 }
-
-export const TICKET_IMAGE_URL =
-  'https://ik.imagekit.io/chainlabs/Simplr_Events/vivacity_ticket_BEvIYgDtB.webp?ik-sdk-version=javascript-1.4.3&updatedAt=1676119194637'

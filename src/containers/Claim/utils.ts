@@ -130,6 +130,7 @@ export interface ClaimTicketRequestBody {
   eventName: string
   accountAddress: BytesLike
   tokenId: number
+  batchId: number
   isSubscribed: boolean
   claimTimestamp: string
   claimTrx: BytesLike

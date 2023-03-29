@@ -4,6 +4,9 @@ import Head from 'next/head'
 import { debounce } from 'lodash'
 import { useEffect } from 'react'
 import React from 'react'
+import { EVENT_NAME } from '@/utils/constants'
+
+const PLAUSIBLE_DOMAIN = process.env.NEXT_PUBLIC_DOMAIN
 
 export default function App({ Component, pageProps }: AppProps) {
   useEffect(() => {
@@ -34,20 +37,16 @@ export default function App({ Component, pageProps }: AppProps) {
     <>
       <Head>
         <link
-          href="https://api.fontshare.com/v2/css?f[]=satoshi@700,500,300,400&display=swap"
-          rel="stylesheet"
-        />
-        <link
           rel="shortcut icon"
           href="https://ik.imagekit.io/chainlabs/Simplr_Collection_Dapp/Simplr_Dark_Logo__kMoJpXxz.svg?ik-sdk-version=javascript-1.4.3&updatedAt=1676563761000"
         />
         <script
           defer
-          data-domain="vivacity23.simplrhq.com"
+          data-domain={PLAUSIBLE_DOMAIN}
           src="https://plausible.io/js/script.js"
         ></script>
 
-        <title>Simpr Events | Vivacity 2023 - Admin</title>
+        <title>Simpr Events | {EVENT_NAME}</title>
       </Head>
       <Component {...pageProps} />
     </>

@@ -18,7 +18,7 @@ const QrScan = () => {
   const [loadingScan, setLoadingScan] = useState(false)
   const [errorOccured, setErrorOcurred] = useState<boolean>(false)
   const [error, setError] = useState('')
-  const [successMessage, setSuccessMessage] = useState('')
+  const [message, setMessage] = useState('')
 
   //This functions gets the data scanned from QR code and pass to check validity of owner
   //If owner is valid data is sent to server and token's validity is checked
@@ -48,17 +48,17 @@ const QrScan = () => {
       if (serverResponse) {
         handleCloseScan()
         setErrorOcurred(!serverResponse.data.success)
-        setSuccessMessage(serverResponse.data.data.message)
+        setMessage(serverResponse.data.data.message)
         setShowModal(true)
       } else {
         const dataNotSent = true
         setErrorOcurred(dataNotSent)
-        setError(ERRORS.unknownError)
+        setMessage(ERRORS.unknownError)
       }
     } else {
       const ownerNotValid = true
       setErrorOcurred(ownerNotValid)
-      setError(ERRORS.OwnerNotValid)
+      setMessage(ERRORS.OwnerNotValid)
       setShowModal(true)
     }
     setLoadingScan(false)
@@ -154,8 +154,8 @@ const QrScan = () => {
           <Modal
             onCancel={handleCloseModal}
             errorPresent={errorOccured}
-            error={error}
-            message={successMessage}
+            // error={error}
+            message={message}
             setStartScan={setStartScan}
           />
         )}

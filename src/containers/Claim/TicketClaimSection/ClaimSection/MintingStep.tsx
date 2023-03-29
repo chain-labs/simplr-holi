@@ -1,5 +1,6 @@
 import If from '@/components/If'
 import {
+  CONTRACT_ADDRESS,
   GELATO_API_KEY,
   getNetwork,
   SERVER_ENDPOINT,
@@ -72,8 +73,7 @@ const MintingStep = ({
     const provider = new ethers.providers.Web3Provider(arcanaProvider)
     const signer = provider.getSigner()
     const { chainId } = getNetwork()
-    const targetAddress =
-      contracts?.[chainId][0]?.contracts?.['SimplrEvents']?.['address']
+    const targetAddress = CONTRACT_ADDRESS
     const abi = [
       contracts?.[chainId][0]?.contracts?.['SimplrEvents']?.['abi'].find(
         (el) => el.name === 'mintTicket',

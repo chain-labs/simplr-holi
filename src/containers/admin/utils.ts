@@ -80,3 +80,25 @@ export const sendDataToServer = async (data) => {
   console.log(res)
   return res
 }
+
+export const checkIfColumnPresent = (rows) => {
+  const columnsNotPresent = []
+  const checkKeyPresenceInArray = (key) =>
+    rows.some((obj) => Object.keys(obj).includes(key))
+  if (!checkKeyPresenceInArray('firstName')) {
+    columnsNotPresent.push('firstName')
+  }
+  if (!checkKeyPresenceInArray('lastName')) {
+    columnsNotPresent.push('lastName')
+  }
+  if (!checkKeyPresenceInArray('email')) {
+    columnsNotPresent.push('email')
+  }
+  if (!checkKeyPresenceInArray('firstAllowedEntryDate')) {
+    columnsNotPresent.push('firstAllowedEntryDate')
+  }
+  if (!checkKeyPresenceInArray('lastAllowedEntryDate')) {
+    columnsNotPresent.push('lastAllowedEntryDate')
+  }
+  return columnsNotPresent
+}

@@ -1,5 +1,6 @@
-import contracts from '@/contracts.json'
 import { CHAIN } from '@arcana/auth'
+import { CONTRACT_ADDRESS } from './constants_admin'
+export { CONTRACT_ADDRESS } from './constants_admin'
 
 const toBoolean = (condition: string) => {
   if (condition?.toLowerCase() === 'true') {
@@ -63,9 +64,6 @@ export const SERVER_ENDPOINT = process.env.NEXT_PUBLIC_SERVER_ENDPOINT
 export const COLLECTION_TYPE = process.env.NEXT_PUBLIC_COLLECTION_TYPE
 
 export const STATIC_PASSWORD = process.env.NEXT_PUBLIC_STATIC_PASSWORD
-
-export const CONTRACT_ADDRESS =
-  contracts?.[getNetwork().chainId][0]?.contracts?.['SimplrEvents']?.['address']
 
 export const OPENSEA_URL = TEST_NETWORK
   ? `https://testnets.opensea.io/assets/mumbai/${CONTRACT_ADDRESS}/`
