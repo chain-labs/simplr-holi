@@ -6,4 +6,5 @@ export const STEPS = {
 export const ERRORS = {
   OwnerNotValid: 'Owner is not Valid',
   unknownError: 'Something went wrong',
+  qrNotFound: 'QR code not found or invalid',
 }
