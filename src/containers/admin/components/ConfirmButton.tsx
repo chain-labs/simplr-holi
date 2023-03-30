@@ -162,8 +162,10 @@ const ConfirmButton = () => {
           const response = await sendDataToServer(serverData)
           if (response.status !== 200) {
             toast(`❌ Something went wrong! Please Try Again`)
+            setLoading(false)
           } else {
             toast(`🎉 Succesfully added batch #${nextBatchId}`)
+            setLoading(false)
           }
         }
       })
