@@ -4,7 +4,8 @@ import FETCH_HOLDER_TICKETS, {
   ITicket,
 } from '@/graphql/query/fetchHolderTickets'
 import FETCH_REVEALED from '@/graphql/query/fetchRevealed'
-import { CONTRACT_ADDRESS, TOKEN_NAME } from '@/utils/constants'
+import { TOKEN_NAME } from '@/utils/constants'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 import { useAuth } from '@arcana/auth-react'
 import axios from 'axios'
 import Image from 'next/image'

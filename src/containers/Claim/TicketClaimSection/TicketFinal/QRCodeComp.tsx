@@ -4,9 +4,10 @@ import QRCode from 'react-qr-code'
 import Spinner from '../../components/Spinner'
 import LitJsSdk from '@lit-protocol/sdk-browser'
 import { useAuth } from '@arcana/auth-react'
-import { CONTRACT_ADDRESS, getNetwork, TOKEN_NAME } from '@/utils/constants'
+import { getNetwork, TOKEN_NAME } from '@/utils/constants'
 import { ethers } from 'ethers'
 import { utf8ToHex } from '../../utils'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 
 const QRCodeComp = ({ qrData, tokenId }: { qrData: any; tokenId: string }) => {
   const [loading, setLoading] = useState(true)
@@ -32,7 +33,7 @@ const QRCodeComp = ({ qrData, tokenId }: { qrData: any; tokenId: string }) => {
       )
       const pngFile = canvas.toDataURL('image/png')
       const downloadLink = document.createElement('a')
-      downloadLink.download = `#${tokenId}_${TOKEN_NAME}_Vivacity2023.png`
+      downloadLink.download = `#${tokenId}_${TOKEN_NAME}.png`
       downloadLink.href = `${pngFile}`
       downloadLink.click()
     }

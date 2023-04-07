@@ -2,7 +2,7 @@ import React from 'react'
 import '@rainbow-me/rainbowkit/styles.css'
 import ExcelInput from '../admin/components/ExcelInput'
 import { Toaster } from 'react-hot-toast'
-import { ArrowRight, File, LightBulb } from 'akar-icons'
+import { File, LightBulb } from 'akar-icons'
 import Image from 'next/image'
 
 const AdminComp = () => {

@@ -3,13 +3,14 @@ import If from '@/components/If'
 import FETCH_HOLDER_TICKETS from '@/graphql/query/fetchHolderTickets'
 import FETCH_REVEALED from '@/graphql/query/fetchRevealed'
 import {
-  CONTRACT_ADDRESS,
   ENABLE_QR,
+  EVENT_NAME,
   OPENSEA_URL,
   TELEGRAM_URL,
   TOKEN_NAME,
   TWITTER_URL,
 } from '@/utils/constants'
+import { CONTRACT_ADDRESS } from '@/utils/constants_admin'
 import { useAuth } from '@arcana/auth-react'
 import { ArrowRight, TelegramFill, TwitterFill } from 'akar-icons'
 import axios from 'axios'
@@ -85,18 +86,23 @@ const TicketFinal = ({ qrData }: { qrData: any }) => {
           </div>
           <div className="mt-8 w-full border-t border-t-gray-300 pt-4">
             <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
-              Your Vivacity 2023 {TOKEN_NAME}
+              Your {EVENT_NAME} {TOKEN_NAME}
             </h2>
             <h2 className="text-center text-2xl font-bold tracking-tight text-gray-900">
               #{tokenId}
             </h2>
             <div className="mt-6 flex justify-center gap-4">
-              <a href={TWITTER_URL} target="_blank" rel="noreferrer">
-                <button className="focus:bg-initial flex items-center rounded-lg bg-[#1da1f2] px-2 py-2.5 text-sm font-medium text-white hover:bg-[#1da1f2]">
-                  <TwitterFill size={16} />
-                  <h4 className="ml-2 text-sm">Share on Twitter</h4>
-                </button>
-              </a>
+              <If
+                condition={!!TWITTER_URL}
+                then={
+                  <a href={TWITTER_URL} target="_blank" rel="noreferrer">
+                    <button className="focus:bg-initial flex items-center rounded-lg bg-[#1da1f2] px-2 py-2.5 text-sm font-medium text-white hover:bg-[#1da1f2]">
+                      <TwitterFill size={16} />
+                      <h4 className="ml-2 text-sm">Share on Twitter</h4>
+                    </button>
+                  </a>
+                }
+              />
               <a
                 href={`${OPENSEA_URL}${tokenId}`}
                 target="_blank"
@@ -108,12 +114,17 @@ const TicketFinal = ({ qrData }: { qrData: any }) => {
               </a>
             </div>
             <div className="mt-4 mb-6 flex justify-center gap-4">
-              <a href={TELEGRAM_URL} target="_blank" rel="noreferrer">
-                <button className="flex items-center rounded-lg bg-blue-700 px-2 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
-                  <TelegramFill size={16} />
-                  <h4 className="ml-2 text-sm">Join Telegram</h4>
-                </button>
-              </a>
+              <If
+                condition={!!TELEGRAM_URL}
+                then={
+                  <a href={TELEGRAM_URL} target="_blank" rel="noreferrer">
+                    <button className="flex items-center rounded-lg bg-blue-700 px-2 py-2.5 text-sm font-medium text-white hover:bg-blue-700">
+                      <TelegramFill size={16} />
+                      <h4 className="ml-2 text-sm">Join Telegram</h4>
+                    </button>
+                  </a>
+                }
+              />
               <If
                 condition={ENABLE_QR}
                 then={

@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from '@/redux/hooks'
 import React, { useState, useEffect, useRef } from 'react'
 import { toast } from 'react-hot-toast'
 import { read, utils } from 'xlsx'
-import { GET_CURRENT_BATCH_ID } from '../utils'
+import { checkIfColumnPresent, GET_CURRENT_BATCH_ID } from '../utils'
 import ConfirmButton from './ConfirmButton'
 import TableData from './TableData'
 
@@ -51,44 +51,51 @@ const HomeComponent = () => {
       reader.onload = (event) => {
         const wb = read(event.target.result)
         const sheets = wb.SheetNames
-        console.log(sheets, event.target.result)
+        console.log(sheets[0], event.target.result)
 
         if (sheets.length) {
           const rows: any = utils.sheet_to_json(wb.Sheets[sheets[0]])
           console.log({ rows })
-          const data: CsvState[] = []
-          try {
-            rows.forEach((row) => {
-              const first = row.firstAllowedEntryDate?.split('-')
-              const last = row.lastAllowedEntryDate?.split('-')
-              const f = new Date('July 1, 1999, 00:00:00')
-              const l = new Date('July 1, 1999, 23:59:59')
+          const columnNotPresentArray = checkIfColumnPresent(rows)
+          if (columnNotPresentArray.length === 0) {
+            const data: CsvState[] = []
+            try {
+              rows.forEach((row) => {
+                const firstDate = row.firstAllowedEntryDate?.split('-')
+                const lastDate = row.lastAllowedEntryDate?.split('-')
+                const firstDateStamp = new Date('July 1, 1999, 12:00:00')
+                const lastDateStamp = new Date('July 1, 1999, 12:00:00')
 
-              f.setDate(first[0])
-              f.setMonth(first[1])
-              f.setFullYear(first[2])
-              const ft = f.getTime()
-              l.setDate(last[0])
-              l.setMonth(last[1])
-              l.setFullYear(last[2])
-              const lt = l.getTime()
+                firstDateStamp.setDate(firstDate[0])
+                firstDateStamp.setMonth(parseInt(firstDate[1]) - 1)
+                firstDateStamp.setFullYear(firstDate[2])
+                const firstDateTimestamp = firstDateStamp.getTime()
+                lastDateStamp.setDate(lastDate[0])
+                lastDateStamp.setMonth(parseInt(lastDate[1]) - 1)
+                lastDateStamp.setFullYear(lastDate[2])
+                const lastDateTimestamp = lastDateStamp.getTime()
 
-              data.push({
-                firstName: row.firstName,
-                lastName: row.lastName,
-                email: row.email,
-                firstAllowedEntryDate: ft.toString(),
-                lastAllowedEntryDate: lt.toString(),
+                data.push({
+                  firstName: row.firstName,
+                  lastName: row.lastName,
+                  email: row.email,
+                  firstAllowedEntryDate: firstDateTimestamp.toString(),
+                  lastAllowedEntryDate: lastDateTimestamp.toString(),
+                })
               })
-            })
-          } catch (err) {
-            toast.error(
-              'File could not be read properly! Please refer to the help section',
-            )
+            } catch (err) {
+              toast.error(
+                'File could not be read properly! Please refer to the help section',
+              )
+              handleRemoveFile()
+            }
+            console.log({ rows, data })
+            setParsedData(data)
+          } else {
+            const columnString = columnNotPresentArray.join(', ')
+            toast.error(`${columnString} not present`)
             handleRemoveFile()
           }
-          console.log({ rows, data })
-          setParsedData(data)
         }
       }
       reader.readAsArrayBuffer(file)
@@ -96,11 +103,11 @@ const HomeComponent = () => {
       toast.error(
         'File could not be read properly! Please refer to the help section',
       )
-      setFile(null)
       handleRemoveFile()
     }
   }
   const handleRemoveFile = () => {
+    setFile(null)
     dispatch(addKey())
     dispatch(removeBatch())
   }
@@ -123,7 +130,7 @@ const HomeComponent = () => {
               key={batch.key}
               required
               onChange={handleImport}
-              accept=".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
+              accept="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel"
             />
             <If
               condition={!!file}
